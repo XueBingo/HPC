@@ -7,6 +7,8 @@
 
 #define BLOCK_SIZE 16
 
+using namespace std;
+
 // Note: matrices are stored in column major order; i.e. the array elements in
 // the (m x n) matrix C are stored in the sequence: {C_00, C_10, ..., C_m0,
 // C_01, C_11, ..., C_m1, C_02, ..., C_0n, C_1n, ..., C_mn}
@@ -25,7 +27,21 @@ void MMult0(long m, long n, long k, double *a, double *b, double *c) {
 }
 
 void MMult1(long m, long n, long k, double *a, double *b, double *c) {
-  // TODO: See instructions below
+    for (long i = 0; i < m; i += BLOCK_SIZE) {
+        for (long j = 0; j < n; j += BLOCK_SIZE) {
+            for (long p = 0; p < k; p += BLOCK_SIZE) {
+                for (long ii = i; ii < min(i + BLOCK_SIZE, m); ii++) {
+                    for (long jj = j; jj < min(j + BLOCK_SIZE, n); jj++) {
+                        double cij = 0.0;
+                        for (long pp = p; pp < min(p + BLOCK_SIZE, k); pp++) {
+                            cij += a[pp * m + ii] * b[jj * k + pp];
+                        }
+                        c[jj * m + ii] += cij;
+                    }
+                }
+            }
+        }
+    }
 }
 
 int main(int argc, char** argv) {
