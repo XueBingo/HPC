@@ -128,3 +128,149 @@ Vector time:    2.2838      Error: 2.454130e-03
 ```
 
 ## Problem 4
+> Processor: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
+
+compute.cpp: Report timings and study the latency of other functions such as sqrt, sin, cos (as outlined at the bottom of the file). Try to run with different compiler optimization flags and report timings.  
+
+-O3 optimization
+```
+mult-add
+0.900234 seconds
+division
+3.145639 seconds
+sqrt
+3.133709 seconds
+sin
+10.830236 seconds
+```
+
+-O0 optimization
+```
+mult-add
+2.921078 seconds
+division
+4.264271 seconds
+sqrt
+5.994306 seconds
+sin
+13.603349 seconds
+```
+
+compute-vec.cpp Read the code and report timings for the vectorized code. Try to explain the different timings (it’s OK if these explanations aren’t fully correct).  
+
+```
+time = 0.907615
+flop-rate = 8.813893 Gflop/s
+
+time = 1.783758
+flop-rate = 4.484887 Gflop/s
+
+time = 1.774972
+flop-rate = 4.507089 Gflop/s
+```
+`compute_fn0()` uses simple for loop (implicit vectorization) to compute.  
+`compute_fn1()` uses intrinsic vectorization to compute.  
+`compute_fn2()` uses a wrapper class Vec that provides a more abstract interface to SIMD operations. So its timing is close to fn1.  
+fn0 is the fastest, maybe thanks to complier's optimization. The performance of fn1 and fn2 may due to the overheads of intrinsic vectorization and Vec.  
+
+compute-vec-pipe.cpp Measure and report the performance of the code for different M as outlined in the comment at the bottom of the file. Summarize your observations.
+
+M = 1
+```
+time = 0.904538
+flop-rate = 8.843910 Gflop/s
+
+time = 1.799325
+flop-rate = 4.446089 Gflop/s
+
+time = 1.776413
+flop-rate = 4.503436 Gflop/s
+```
+
+M = 2
+```
+time = 1.030388
+flop-rate = 15.527538 Gflop/s
+
+time = 1.802190
+flop-rate = 8.878024 Gflop/s
+
+time = 1.781046
+flop-rate = 8.983427 Gflop/s
+```
+
+M = 3
+```
+time = 2.367103
+flop-rate = 10.138798 Gflop/s
+
+time = 1.791521
+flop-rate = 13.396359 Gflop/s
+
+time = 1.782760
+flop-rate = 13.462194 Gflop/s
+```
+
+M = 4
+```
+time = 4.025008
+flop-rate = 7.950188 Gflop/s
+
+time = 1.797150
+flop-rate = 17.805864 Gflop/s
+
+time = 1.783830
+flop-rate = 17.938820 Gflop/s
+```
+
+M = 8
+```
+time = 2.240452
+flop-rate = 28.565199 Gflop/s
+
+time = 2.040176
+flop-rate = 31.369658 Gflop/s
+
+time = 2.050045
+flop-rate = 31.218666 Gflop/s
+```
+
+M = 16
+```
+time = 7.594753
+flop-rate = 16.853657 Gflop/s
+
+time = 3.801349
+flop-rate = 33.672167 Gflop/s
+
+time = 3.795872
+flop-rate = 33.720760 Gflop/s
+```
+
+M = 32
+```
+time = 28.494053
+flop-rate = 8.984263 Gflop/s
+
+time = 28.435303
+flop-rate = 9.002889 Gflop/s
+
+time = 28.495653
+flop-rate = 8.983823 Gflop/s
+```
+
+M = 64
+```
+time = 56.997868
+flop-rate = 8.982786 Gflop/s
+
+time = 56.953074
+flop-rate = 8.989855 Gflop/s
+
+time = 56.833921
+flop-rate = 9.008703 Gflop/s
+```
+
+When M is small(1, 2), fn0 is the fastest. Because there isn't enough parallelism to fill the pipeline. And the overhead may result in a worse performance.  
+When M = 4, 8, 16, fn1 and fn2 benifit from pipeliening, thus much faster than fn0.  
+M is too large(32, 16) then the computation cannot fit in registers and the data pills to the L1 cache resulting in slower execution. So the speed of these 3 functions are pretty close.
