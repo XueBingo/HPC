@@ -56,8 +56,18 @@ void sin4_intrin(double* sinx, const double* x) {
   x2  = _mm256_mul_pd(x1, x1);
   x3  = _mm256_mul_pd(x1, x2);
 
+  __m256d x5, x7, x9, x11;
+  x5 = _mm256_mul_pd(x2, x3);
+  x7 = _mm256_mul_pd(x2, x5);
+  x9 = _mm256_mul_pd(x2, x7);
+  x11 = _mm256_mul_pd(x2, x9);
+
   __m256d s = x1;
   s = _mm256_add_pd(s, _mm256_mul_pd(x3 , _mm256_set1_pd(c3 )));
+  s = _mm256_add_pd(s, _mm256_mul_pd(x5 , _mm256_set1_pd(c5 )));
+  s = _mm256_add_pd(s, _mm256_mul_pd(x7 , _mm256_set1_pd(c7 )));
+  s = _mm256_add_pd(s, _mm256_mul_pd(x9 , _mm256_set1_pd(c9 )));
+  s = _mm256_add_pd(s, _mm256_mul_pd(x11 , _mm256_set1_pd(c11 )));
   _mm256_store_pd(sinx, s);
 #elif defined(__SSE2__)
   constexpr int sse_length = 2;

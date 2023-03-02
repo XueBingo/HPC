@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
     }
     double time = t.toc();
     double flops = 2.0 * m * n * k * NREPEATS / time / 1e9; // TODO: calculate from m, n, k, NREPEATS, time
-    double bandwidth = ( (m/BLOCK_SIZE) * n * k + (n/BLOCK_SIZE) * k * m + 2 * m * n) * sizeof(double) * NREPEATS / time / (1024 * 1024 * 1024); // TODO: calculate from m, n, k, NREPEATS, time
+    double bandwidth = ( ((1.0 * m)/BLOCK_SIZE) * n * k + ((1.0 * n)/BLOCK_SIZE) * k * m + 2 * m * n) * BLOCK_SIZE * BLOCK_SIZE * sizeof(double) * NREPEATS / time / (1024 * 1024 * 1024); // TODO: calculate from m, n, k, NREPEATS, time
     printf("%10ld %10f %10f %10f", p, time, flops, bandwidth);
 
     double max_err = 0;
