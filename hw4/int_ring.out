@@ -1,0 +1,6 @@
+Rank 0 running on cm013.hpc.nyu.edu.
+Rank 1 running on cm014.hpc.nyu.edu.
+Rank 2 running on cm015.hpc.nyu.edu.
+Rank 3 running on cm029.hpc.nyu.edu.
+Final sum: 60000
+int_ring latency for a ring: 1.019798e-02 ms
