@@ -36,5 +36,17 @@ int_ring latency for a ring: 1.019798e-02 ms
 array_ring latency for a ring: 6.711538e-01 ms
 Bandwidth: 11919.770785 MB/s
 
+## 3. MPI-scan.
+> mpi-scan.cpp
+```
+Rank 3/4 running on cs362.hpc.nyu.edu.
+Rank 1/4 running on cs360.hpc.nyu.edu.
+Rank 2/4 running on cs361.hpc.nyu.edu.
+Rank 0/4 running on cs359.hpc.nyu.edu.
+error = 0
+```
 
+## 4. Pitch your final project.
+
+I will try to parallelize PageRank algorithm, which is the the algorithm used by Google Search to rank web pages in their search engine results. I will compare the time with and without parallelization. This project will be implemented in C/C++, by myself.
 
